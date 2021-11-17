@@ -8,7 +8,7 @@ class Ventana(QWidget):
         self.showMaximized()
         
         boton1 = QPushButton('Finalizar Pedido')
-        boton1.setFixedSize(70, 50)
+        boton1.setFixedSize(100, 50)
 
         grid = QGridLayout()
         grid.addWidget(boton1, 10, 10)
