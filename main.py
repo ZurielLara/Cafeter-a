@@ -1,3 +1,5 @@
+from PyQt6.QtCore import *
+from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import *
 import sys
 
@@ -8,6 +10,7 @@ class Window(QMainWindow):
 
         # set the title of main window
         self.setWindowTitle('Cafeteria')
+        self.setStyleSheet('background-color: white;')
 
         # set the size of window
         self.Width = 800
@@ -18,11 +21,16 @@ class Window(QMainWindow):
         self.btn_1 = QPushButton('Pedido', self)
         self.btn_2 = QPushButton('Inventario', self)
         self.btn_3 = QPushButton('Ventas', self)
+        self.logoCafe = QLabel('')
+        self.pixmapCafe = QPixmap('./Recursos/Imagenes/logoCafe.png')
+        self.pixmapCafe.scaled(60, 60)
+        self.logoCafe.setPixmap(self.pixmapCafe)
 
         # Hoja de estilos
         self.btn_1.setStyleSheet('border: none;')
         self.btn_2.setStyleSheet('border: none;')
         self.btn_3.setStyleSheet('border: none;')
+
 
         self.btn_1.clicked.connect(self.button1)
         self.btn_2.clicked.connect(self.button2)
@@ -34,9 +42,11 @@ class Window(QMainWindow):
         self.tab3 = self.ui3()
 
         self.initUI()
+        self.showMaximized()
 
     def initUI(self):
         left_layout = QVBoxLayout()
+        left_layout.addWidget(self.logoCafe)
         left_layout.addWidget(self.btn_1)
         left_layout.addWidget(self.btn_2)
         left_layout.addWidget(self.btn_3)
@@ -90,7 +100,7 @@ class Window(QMainWindow):
 
     def ui1(self):
         main_layout = QVBoxLayout()
-        main_layout.addWidget(QLabel('page 1'))
+        main_layout.addWidget(QLabel('Pedidos'))
         main_layout.addStretch(5)
         main = QWidget()
         main.setLayout(main_layout)
@@ -98,7 +108,7 @@ class Window(QMainWindow):
 
     def ui2(self):
         main_layout = QVBoxLayout()
-        main_layout.addWidget(QLabel('page 2'))
+        main_layout.addWidget(QLabel('Inventario'))
         main_layout.addStretch(5)
         main = QWidget()
         main.setLayout(main_layout)
@@ -106,15 +116,7 @@ class Window(QMainWindow):
         
     def ui3(self):
         main_layout = QVBoxLayout()
-        main_layout.addWidget(QLabel('page 3'))
-        main_layout.addStretch(5)
-        main = QWidget()
-        main.setLayout(main_layout)
-        return main
-
-    def ui4(self):
-        main_layout = QVBoxLayout()
-        main_layout.addWidget(QLabel('page 4'))
+        main_layout.addWidget(QLabel('Ventas'))
         main_layout.addStretch(5)
         main = QWidget()
         main.setLayout(main_layout)
