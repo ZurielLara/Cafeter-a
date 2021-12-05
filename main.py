@@ -11,6 +11,9 @@ class Window(QMainWindow):
         self.tipoCafe = valores.tipoCafe()
         self.sabor = valores.sabor()
         self.tamanio = valores.tamanio()
+        self.tipoLeche = valores.tipoLeche()
+        self.extras = valores.extras()
+        self.tipoPedido = valores.tipoPedido()
 
         # ------ VENTANA PRINCIPAL ------
         # Modificación de las propiedades
@@ -40,19 +43,39 @@ class Window(QMainWindow):
 
         #Etiquetas
         self.logoCafe = QLabel('') # Logo del Café
+        self.logoCafe.setFixedSize(260, 200)
         self.pixmapCafe = QPixmap('./Recursos/Imagenes/logoCafe.png')
-        self.pixmapCafe.scaled(60, 60)
+        self.pixmapCafe.scaled(20, 20)
         self.logoCafe.setPixmap(self.pixmapCafe)
+
+        # Fuentes
+        self.fuente = QFont('Arial', 14)
+        self.fuente.setBold(True)
 
         # Opciones de Combobox
         self.btnTipoCafe.addItems(self.tipoCafe)
         self.btnSabor.addItems(self.sabor)
         self.btnTamanio.addItems(self.tamanio)
+        self.btnTipoLeche.addItems(self.tipoLeche)
+        self.btnExtras.addItems(self.extras)
+        self.btnTipoPedido.addItems(self.tipoPedido)
 
         # Estilos
-        self.btn_1.setStyleSheet('border: none;')
-        self.btn_2.setStyleSheet('border: none;')
-        self.btn_3.setStyleSheet('border: none;')
+        self.btn_1.setStyleSheet('border: none; color: white;')
+        self.btn_2.setStyleSheet('border: none; color: white;')
+        self.btn_3.setStyleSheet('border: none; color: white;')
+        self.btn_1.setFont(self.fuente)
+        self.btn_1.setFixedSize(260, 50)
+        self.btn_2.setFont(self.fuente)
+        self.btn_2.setFixedSize(260, 50)
+        self.btn_3.setFont(self.fuente)
+        self.btn_3.setFixedSize(260, 50)
+        self.btn_1.setIcon(QIcon('./Recursos/Iconos/tCafe.png'))
+        self.btn_2.setIcon(QIcon('./Recursos/Iconos/inventario.png'))
+        self.btn_3.setIcon(QIcon('./Recursos/Iconos/ventas.png'))
+        self.btn_1.setIconSize(QSize(35, 35))
+        self.btn_2.setIconSize(QSize(35, 35))
+        self.btn_3.setIconSize(QSize(35, 35))
         self.btnTipoCafe.setFixedSize(145, 55)
         self.btnSabor.setFixedSize(145, 55)
         self.btnTamanio.setFixedSize(145, 55)
@@ -83,6 +106,12 @@ class Window(QMainWindow):
                                     color: white;
                             }
                                 """
+        self.btnTipoCafe.setFont(self.fuente)
+        self.btnSabor.setFont(self.fuente)
+        self.btnTamanio.setFont(self.fuente)
+        self.btnTipoLeche.setFont(self.fuente)
+        self.btnExtras.setFont(self.fuente)
+        self.btnTipoPedido.setFont(self.fuente)
 
         # Manejadores de eventos para páginas
         self.btn_1.clicked.connect(self.button1)
@@ -100,13 +129,14 @@ class Window(QMainWindow):
     def initUI(self):
         left_layout = QVBoxLayout() # Layout Vertical
         left_layout.addWidget(self.logoCafe) # Imagen del logo del café
+        left_layout.addSpacerItem(QSpacerItem(260, 15))
         left_layout.addWidget(self.btn_1) # Botón para página Pedidos
         left_layout.addWidget(self.btn_2) # Botón para página inventario
         left_layout.addWidget(self.btn_3) # Botón para página ventas
         left_layout.addStretch(5) # Alineado desde bottom a top
-        left_layout.setSpacing(20) # Espaciado
         left_widget = QWidget() # Intancia de la clase QWidget
-        left_widget.setStyleSheet("background-color: brown;") # Hoja de estilos del layout izquierdo
+        left_widget.setStyleSheet('background-color: brown;')
+        left_widget.setFixedWidth(260)
         left_widget.setLayout(left_layout) # Se define el layout del documento
 
         self.right_widget = QTabWidget() 
@@ -132,21 +162,21 @@ class Window(QMainWindow):
     # Botones
     def button1(self):
         self.right_widget.setCurrentIndex(0)
-        self.btn_1.setStyleSheet('background-color: red; border: none;')
-        self.btn_2.setStyleSheet('background-color: brown; border: none;')
-        self.btn_3.setStyleSheet('background-color: brown; border: none;')
+        self.btn_1.setStyleSheet('background-color: red; border: none; color: white;')
+        self.btn_2.setStyleSheet('background-color: brown; border: none; color: white;')
+        self.btn_3.setStyleSheet('background-color: brown; border: none; color: white;')
 
     def button2(self):
         self.right_widget.setCurrentIndex(1)
-        self.btn_1.setStyleSheet('background-color: brown; border: none;')
-        self.btn_2.setStyleSheet('background-color: red; border: none;')
-        self.btn_3.setStyleSheet('background-color: brown; border: none;')
+        self.btn_1.setStyleSheet('background-color: brown; border: none; color: white;')
+        self.btn_2.setStyleSheet('background-color: red; border: none; color: white;')
+        self.btn_3.setStyleSheet('background-color: brown; border: none; color: white;')
 
     def button3(self):
         self.right_widget.setCurrentIndex(2)
-        self.btn_1.setStyleSheet('background-color: brown; border: none;')
-        self.btn_2.setStyleSheet('background-color: brown; border: none;')
-        self.btn_3.setStyleSheet('background-color: red; border: none;')
+        self.btn_1.setStyleSheet('background-color: brown; border: none; color: white;')
+        self.btn_2.setStyleSheet('background-color: brown; border: none; color: white;')
+        self.btn_3.setStyleSheet('background-color: red; border: none; color: white;')
 	
     # Páginas
     def ui1(self):
