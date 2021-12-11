@@ -49,7 +49,7 @@ class Ventas():
         self._semanas = [1, 2, 3, 4]
         self._ventasM = [12, 20, 10, 5]
 
-        return self._semanas, self._ventasM, len(self._semanas)
+        return self._semanas, self._ventasM
 
 
 class Login():

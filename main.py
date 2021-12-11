@@ -1,11 +1,9 @@
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-import pyqtgraph as pg
-from back import Valores as val
+from back import Valores
 from back import Ventas as ven
 from back import Login as lg
-from operator import xor
 import sys
 
 
@@ -146,15 +144,16 @@ class Ui_Login(object):
 class Window(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.tipoCafe = valores.tipoCafe()
-        self.sabor = valores.sabor()
-        self.tamanio = valores.tamanio()
-        self.tipoLeche = valores.tipoLeche()
-        self.extras = valores.extras()
-        self.tipoPedido = valores.tipoPedido()
+        self.tipoCafe = Valores.tipoCafe(self)
+        self.sabor = Valores.sabor(self)
+        self.tamanio = Valores.tamanio(self)
+        self.tipoLeche = Valores.tipoLeche(self)
+        self.extras = Valores.extras(self)
+        self.tipoPedido = Valores.tipoPedido(self)
         self.horas, self.ventasH = ven.ventasD(self)
         self.filasVentasDia = len(self.horas)
-        self.semanas, self.ventasM, self.filasVentasMes = ven.ventasM(self)
+        self.semanas, self.ventasM = ven.ventasM(self)
+        self.filasVentasMes = len(self.semanas)
         self.anchoWPedido = 180
         self.largoWPedido = 70
 
@@ -188,6 +187,7 @@ class Window(QMainWindow):
         self.btnTipoLeche = QComboBox(objectName = 'btnTipoLeche') # Menú desplegable "Tipo de Leche"
         self.btnExtras = QComboBox(objectName = 'btnExtras') # Menú desplegable "Extras"
         self.btnTipoPedido = QComboBox(objectName = 'btnTipoPedido') # Menú desplegable "Tipo de Pedido"
+        self.btnConfiguracion = QComboBox(objectName = 'btnConfiguracion')
 
         # Campos de texto
         self.cNombreCliente = QLineEdit(objectName = 'cNombreCliente') # Campo de texto "Nombre del cliente"
@@ -218,6 +218,8 @@ class Window(QMainWindow):
         self.btnExtras.addItems(self.extras)
         self.btnTipoPedido.addItem('Tipo de Pedido')
         self.btnTipoPedido.addItems(self.tipoPedido)
+        self.btnConfiguracion.addItem('')
+        self.btnConfiguracion.addItems(['Admin. Materia Prima', 'Admin. Usuarios', 'Admin. Productos'])
 
         # Desactivando Items de QComboBox
         self.btnTipoCafe.model().item(0).setEnabled(False)
@@ -226,6 +228,7 @@ class Window(QMainWindow):
         self.btnTipoLeche.model().item(0).setEnabled(False)
         self.btnExtras.model().item(0).setEnabled(False)
         self.btnTipoPedido.model().item(0).setEnabled(False)
+        self.btnConfiguracion.model().item(0).setEnabled(False)
 
         # Tablas
         self.tablaInventario = QTableWidget(2, 6)
@@ -237,6 +240,13 @@ class Window(QMainWindow):
         self.btnPedidos.setStyleSheet('border: none; color: white;')
         self.btnInventario.setStyleSheet('border: none; color: white;')
         self.btnVentas.setStyleSheet('border: none; color: white;')
+        self.btnConfiguracion.setStyleSheet("""QComboBox {
+                                                    background: brown;
+                                                    border-radius: 5px;     	
+                                                    }
+                                                QComboBox::drop-down{
+                                                    border-left-color: brown;
+                                                    }""")
         self.pedidoSS = """
                             QComboBox { 
                                         border-radius: 10px; 
@@ -322,6 +332,7 @@ class Window(QMainWindow):
         self.btnTipoLeche.setFixedSize(self.anchoWPedido, self.largoWPedido)
         self.btnExtras.setFixedSize(self.anchoWPedido, self.largoWPedido)
         self.btnTipoPedido.setFixedSize(self.anchoWPedido, self.largoWPedido)
+        self.btnConfiguracion.setFixedSize(120, 40)
         self.cNombreCliente.setFixedSize(self.anchoWPedido, self.largoWPedido) # <- Termina Conf. QComboBox
         self.logoCafe.setFixedSize(260, 200) # -> Inicia Conf. QLabel
         self.pedidoLabel.setFixedSize(1290, 100)
@@ -338,6 +349,7 @@ class Window(QMainWindow):
         self.btnPedidos.setIconSize(QSize(35, 35))
         self.btnInventario.setIconSize(QSize(35, 35))
         self.btnVentas.setIconSize(QSize(35, 35))
+        self.btnConfiguracion.setIconSize(QSize(35, 35))
 
         # Opciones para tablas
         self.tablaInventario.setHorizontalHeaderLabels(['ID', 'Nombre del producto', 'Categoría', 'Ubicación', 'Cantidad', 'Costo unitario'])
@@ -354,11 +366,18 @@ class Window(QMainWindow):
         self.btnPedidos.clicked.connect(self.botonPedidos)
         self.btnInventario.clicked.connect(self.botonInventario)
         self.btnVentas.clicked.connect(self.botonVentas)
+        self.btnConfiguracion.currentIndexChanged.connect(self.cBConfiguracion)
+
+        # Iconos QComboBox
+        self.btnConfiguracion.setItemIcon(0, QIcon('./Recursos/Iconos/ajuste.png'))
 
         # Pestañas
         self.tab1 = self.ventanaPedidos()
         self.tab2 = self.ventanaInventario()
         self.tab3 = self.ventanaVentas()
+        self.tab4 = self.administracionMateriaP()
+        self.tab5 = self.administracionUsuarios()
+        self.tab6 = self.administracionProductos()
 
         self.principal() # Se llama a la pestaña principal
         self.showMaximized() # Despliega "maximizada la pantalla principal"
@@ -370,6 +389,7 @@ class Window(QMainWindow):
         left_layout.addWidget(self.btnPedidos) # Botón para página Pedidos
         left_layout.addWidget(self.btnInventario) # Botón para página inventario
         left_layout.addWidget(self.btnVentas) # Botón para página ventas
+        left_layout.addWidget(self.btnConfiguracion)
         left_layout.addStretch(5) # Alineado desde bottom a top
         left_widget = QWidget() # Intancia de la clase QWidget
         left_widget.setStyleSheet('background-color: brown;')
@@ -382,6 +402,9 @@ class Window(QMainWindow):
         self.right_widget.addTab(self.tab1, '')
         self.right_widget.addTab(self.tab2, '')
         self.right_widget.addTab(self.tab3, '')
+        self.right_widget.addTab(self.tab4, '')
+        self.right_widget.addTab(self.tab5, '')
+        self.right_widget.addTab(self.tab6, '')
 
         self.right_widget.setCurrentIndex(0)
         self.right_widget.setStyleSheet('''QTabBar::tab{width: 0; \
@@ -414,6 +437,19 @@ class Window(QMainWindow):
         self.btnPedidos.setStyleSheet('background-color: brown; border: none; color: white;')
         self.btnInventario.setStyleSheet('background-color: brown; border: none; color: white;')
         self.btnVentas.setStyleSheet('background-color: red; border: none; color: white;')
+
+    def cBConfiguracion(self, indice):
+        if indice == 1:
+            print(indice)
+            self.administracionMateriaP()
+        elif indice == 2:
+            print(indice)
+            self.administracionUsuarios()
+        elif indice == 3:
+            print(indice)
+            self.administracionProductos()
+        else:
+            pass
 	
     # Páginas
     def ventanaPedidos(self):
@@ -481,13 +517,33 @@ class Window(QMainWindow):
         main.setLayout(main_layout)
         return main
 
+    def administracionMateriaP(self):
+        main_layout = QVBoxLayout()
+        main_layout.addWidget(QLabel('Administracion de materia prima'))
+        main = QWidget()
+        main.setLayout(main_layout)
+        return main
+
+    def administracionUsuarios(self):
+        main_layout = QVBoxLayout()
+        main = QWidget()
+        main.setLayout(main_layout)
+        return main
+
+    def administracionProductos(self):
+        main_layout = QVBoxLayout()
+        main = QWidget()
+        main.setLayout(main_layout)
+        return main
+
+
 
 if __name__ == '__main__':
 
     app = QApplication(sys.argv)
-    Login = QMainWindow()
-    valores = val()
-    ui = Ui_Login()
-    ui.setupUi(Login)
-    Login.show()
+    window = Window()
+    # Login = QMainWindow()
+    # ui = Ui_Login()
+    # ui.setupUi(Login)
+    window.show()
     sys.exit(app.exec())
