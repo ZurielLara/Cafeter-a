@@ -127,7 +127,6 @@ class Ui_Login(object):
         if lg.busca_users(self, self.usuarios) and lg.busca_password(self, self.contrasena):
             self.w = Window()
             self.w.show()
-            self.hide()
         else:
             self.usuario_incorrecto.setText('El usuario o la contraseña son incorrectos')
 
@@ -186,6 +185,19 @@ class Window(QMainWindow):
         self.btnEliminar = QPushButton('Eliminar', objectName = 'eliminar')
         self.btnAceptar1 = QPushButton('Aceptar', objectName = 'btnAceptar1')
         self.btnAceptar2 = QPushButton('Aceptar', objectName = 'btnAceptar2')
+        self.btnIngresar = QPushButton('Ingresar', objectName = 'btnIngresar')
+        self.btnAgregarUser = QPushButton('Agregar', objectName = 'btnAgregarUser')
+        self.btnEliminarUser = QPushButton('Eliminar', objectName = 'btnEliminarUser')
+        self.btnModificarUser = QPushButton('Modificar', objectName = 'btnModificarUser')
+        self.btnEjecutarAgregar = QPushButton('Ejecutar', objectName = 'btnEjecutarAgregar')
+        self.btnEjecutarEliminar = QPushButton('Ejecutar', objectName = 'btnEjecutarEliminar')
+        self.btnEjecutarModificar = QPushButton('Ejecutar', objectName = 'btnEjecutarModificar')
+        self.btnAceptarModificar = QPushButton('Aceptar', objectName = 'btnAceptarModificar')
+        self.btnIngresarAdminProd = QPushButton('Ingresa', objectName = 'btnIngresarAdminProd')
+        self.btnAgregarProductos = QPushButton('Agregar', objectName = 'btnAgregarProductos')
+        self.btnEliminarProductos = QPushButton('Eliminar', objectName = 'btnEliminarProductos')
+        self.btnEjecutarAgregarP = QPushButton('Ejecutar', objectName = 'btnEjecutarAgregarP')
+        self.btnEjecutarEliminarP = QPushButton('Ejecutar', objectName = 'btnEjecutarEliminarP')
         
         # Combo box
         self.btnTipoCafe = QComboBox(objectName = 'btnTipoCafe') # Menú desplegable "Tipo de Café"
@@ -194,20 +206,53 @@ class Window(QMainWindow):
         self.btnTipoLeche = QComboBox(objectName = 'btnTipoLeche') # Menú desplegable "Tipo de Leche"
         self.btnExtras = QComboBox(objectName = 'btnExtras') # Menú desplegable "Extras"
         self.btnTipoPedido = QComboBox(objectName = 'btnTipoPedido') # Menú desplegable "Tipo de Pedido"
+        self.comboCategoriaModificar = QComboBox(objectName = 'comboCategoriaModificar')
+        self.comboOpcionesModificar = QComboBox(objectName = 'comboOpcionesModificar')
+        self.comboUsuario = QComboBox(objectName = 'comboUsuario')
+        self.comboIdProductos = QComboBox(objectName = 'comboIdProductos')
 
         # Campos de texto
         self.cNombreCliente = QLineEdit(objectName = 'cNombreCliente') # Campo de texto "Nombre del cliente"
-        self.cNombreCliente.setPlaceholderText('Nombre del cliente')
         self.cT1 = QLineEdit(objectName = 'cT1')
         self.cT2 = QLineEdit(objectName = 'cT2')
         self.cT3 = QLineEdit(objectName = 'cT3')
         self.cT4 = QLineEdit(objectName = 'cT4')
+        self.campoUsuario = QLineEdit(objectName = 'campoUsuario')
+        self.campoContrasenia = QLineEdit(objectName = 'campoContrasenia')
+        self.campoNombreAgregar = QLineEdit(objectName = 'campoNombreAgregar')
+        self.campoUsuarioAgregar = QLineEdit(objectName = 'campoUsuarioAgregar')
+        self.campoContraseniaAgregar = QLineEdit(objectName = 'campoContraseniaAgregar')
+        self.campoTipoAgregar = QLineEdit(objectName = 'campoTipoAgregar')
+        self.campoValorModificar = QLineEdit(objectName = 'campoValorModificar')
+        self.campoUsuarioProductos = QLineEdit(objectName = 'campoUsuarioProductos')
+        self.campoContraseniaProductos = QLineEdit(objectName = 'campoContraseniaProductos')
+        self.campoIdProductos = QLineEdit(objectName = 'campoIdProductos')
+        self.campoNombreProductos = QLineEdit(objectName = 'campoNombreProductos')
 
+        self.cNombreCliente.setPlaceholderText('Nombre del cliente')
+        self.campoUsuario.setPlaceholderText('Usuario')
+        self.campoContrasenia.setPlaceholderText('Contraseña')
+        self.campoNombreAgregar.setPlaceholderText('Nombre empleado')
+        self.campoUsuarioAgregar.setPlaceholderText('Usuario')
+        self.campoContraseniaAgregar.setPlaceholderText('Contraseña')
+        self.campoTipoAgregar.setPlaceholderText('Privilegio')
+        self.campoValorModificar.setPlaceholderText('Información a Modificar')
+        self.campoUsuarioProductos.setPlaceholderText('Usuario')
+        self.campoContraseniaProductos.setPlaceholderText('Contraseña')
+        self.campoIdProductos.setPlaceholderText('ID')
+        self.campoNombreProductos.setPlaceholderText('Nombre')
+        
         #Etiquetas
         self.logoCafe = QLabel('') # Logo del Café
         self.pedidoLabel = QLabel('Pedidos')
         self.inventarioLabel = QLabel('Inventario')
-        self.label1 = QLabel('')
+        self.materiaPrimaLabel = QLabel('Administración de Materia Prima')
+        self.adminUsuariosLabel = QLabel('Administración de Usuarios')
+        self.adminProductosLabel = QLabel('Administración de Productos')
+        self.autenticarUsuariosLabel = QLabel('')
+        self.confirmacionUsuariosLabel = QLabel('')
+        self.lAutenticarUsuariosP = QLabel('')
+        self.lConfirmacionOperacionP = QLabel('')
         self.label2 = QLabel('')
         self.label3 = QLabel('')
         self.label4 = QLabel('')
@@ -247,6 +292,15 @@ class Window(QMainWindow):
         self.tablaVentasDia = QTableWidget(self.filasVentasDia, 2)
         self.tablaVentasMes = QTableWidget(self.filasVentasMes, 2)
         self.tablaAMateriaPrima = QTableWidget(4, 3)
+        self.tablaUsuarios = QTableWidget(3, 2)
+        self.tablaAdminProductos = QTableWidget(2, 2)
+
+        self.tablaInventario.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.tablaVentasDia.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.tablaVentasMes.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.tablaAMateriaPrima.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.tablaUsuarios.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.tablaAdminProductos.setEditTriggers(QAbstractItemView.NoEditTriggers)
 
         # ESTTILOS
         # Hojas de Estilos
@@ -263,10 +317,10 @@ class Window(QMainWindow):
                                         }
 
                             QLineEdit {
-                                    border: 1px solid brown;
+                                    border: 1px solid #d4c3b8;
                                     border-radius: 5px;
-                                    background-color: brown;
-                                    color: white;
+                                    background-color: #d4c3b8;
+                                    color: black;
                                     }
 
                             QPushButton {
@@ -276,6 +330,11 @@ class Window(QMainWindow):
                                     color: white;
                             }
                             
+                            QLabel {
+                                font: 48pt \"Vladimir Script\";
+                                color: #6b350a;
+                            }
+
                             QComboBox#btnTipoCafe {
                                 background-color: rgb(255, 87, 87); 
                             }
@@ -309,6 +368,10 @@ class Window(QMainWindow):
                             }
                                 """
         self.tablaInventario.setStyleSheet('border: none;')
+        self.inventarioLabel.setStyleSheet('font: 48pt \"Vladimir Script\";\ncolor: #6b350a;')
+        self.materiaPrimaLabel.setStyleSheet('font: 48pt \"Vladimir Script\";\ncolor: #6b350a;')
+        self.adminUsuariosLabel.setStyleSheet('font: 48pt \"Vladimir Script\";\ncolor: #6b350a;')
+        self.adminProductosLabel.setStyleSheet('font: 48pt \"Vladimir Script\";\ncolor: #6b350a;')
 
         # Configuración de Fuentes de los Widgets
         self.btnPedidos.setFont(self.negrita14) # -> Inicia Conf. QPushButton
@@ -326,13 +389,10 @@ class Window(QMainWindow):
         self.btnExtras.setFont(self.negrita14)
         self.btnTipoPedido.setFont(self.negrita14)
         self.cNombreCliente.setFont(self.negrita14) # <- Termina Conf. QComboBox
-        self.pedidoLabel.setFont(self.fuenteCursiva) # -> Inicia Conf. QLabel
-        self.ventasLabel.setFont(self.fuenteCursiva)
-        self.ventasDiaL.setFont(self.negrita14)
-        self.ventasMesL.setFont(self.negrita14)
-        self.inventarioLabel.setFont(self.fuenteCursiva) # -> Termina Conf. QLablel
+        self.ventasDiaL.setFont(self.negrita14) # -> Inicia Conf. QLabel
+        self.ventasMesL.setFont(self.negrita14) # -> Termina Conf. QLablel
 
-        #Configuración de tamaño de ls Widgets
+        #Configuración de tamaño de los Widgets
         self.btnPedidos.setFixedSize(260, 50) # -> Inicia Conf. QPushButton
         self.btnInventario.setFixedSize(260, 50)
         self.btnVentas.setFixedSize(260, 50)
@@ -350,11 +410,16 @@ class Window(QMainWindow):
         self.cNombreCliente.setFixedSize(self.anchoWPedido, self.largoWPedido) # <- Termina Conf. QComboBox
         self.logoCafe.setFixedSize(260, 200) # -> Inicia Conf. QLabel
         self.pedidoLabel.setFixedSize(1290, 100)
+        self.autenticarUsuariosLabel.setFixedHeight(50)
+        self.lAutenticarUsuariosP.setFixedHeight(50)
         self.tablaInventario.setFixedSize(1260, 200) # <- Termina Conf. QLabel
 
         # Alineación
         self.inventarioLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.ventasLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.materiaPrimaLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.adminProductosLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.adminUsuariosLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         #Configuración de iconos
         self.btnPedidos.setIcon(QIcon('./Recursos/Iconos/tCafe.png'))
@@ -374,6 +439,7 @@ class Window(QMainWindow):
         self.tablaInventario.setHorizontalHeaderLabels(['ID', 'Nombre del producto', 'Categoría', 'Ubicación', 'Cantidad', 'Costo unitario'])
         self.tablaVentasDia.setHorizontalHeaderLabels(['Horas', 'Número de ventas'])
         self.tablaVentasMes.setHorizontalHeaderLabels(['Semana', 'Número de ventas'])
+        self.tablaAdminProductos.setHorizontalHeaderLabels(['ID', 'Nombre'])
         self.tablaInventario.resizeColumnsToContents()
         self.tablaVentasDia.resizeColumnsToContents()
         self.tablaVentasMes.resizeColumnsToContents()
@@ -414,7 +480,7 @@ class Window(QMainWindow):
         left_layout.addWidget(self.btnAdminProductos)
         left_layout.addStretch(5) # Alineado desde bottom a top
         left_widget = QWidget() # Intancia de la clase QWidget
-        left_widget.setStyleSheet('background-color: brown')
+        left_widget.setStyleSheet('background-color: #6b350a;')
         left_widget.setFixedWidth(260)
         left_widget.setLayout(left_layout) # Se define el layout del documento
 
@@ -444,56 +510,56 @@ class Window(QMainWindow):
     # Botones
     def botonPedidos(self):
         self.right_widget.setCurrentIndex(0)
-        self.btnPedidos.setStyleSheet('background-color: red; border: none; color: white;')
-        self.btnInventario.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnVentas.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnAdminMatP.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnAdminUsuarios.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnAdminProductos.setStyleSheet('background-color: brown; border: none; color: white;')
+        self.btnPedidos.setStyleSheet('background-color: #896950; border: none; color: white;')
+        self.btnInventario.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnVentas.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnAdminMatP.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnAdminUsuarios.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnAdminProductos.setStyleSheet('background-color: #6b350a; border: none; color: white;')
 
     def botonInventario(self):
         self.right_widget.setCurrentIndex(1)
-        self.btnPedidos.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnInventario.setStyleSheet('background-color: red; border: none; color: white;')
-        self.btnVentas.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnAdminMatP.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnAdminUsuarios.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnAdminProductos.setStyleSheet('background-color: brown; border: none; color: white;')
+        self.btnPedidos.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnInventario.setStyleSheet('background-color: #896950; border: none; color: white;')
+        self.btnVentas.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnAdminMatP.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnAdminUsuarios.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnAdminProductos.setStyleSheet('background-color: #6b350a; border: none; color: white;')
 
     def botonVentas(self):
         self.right_widget.setCurrentIndex(2)
-        self.btnPedidos.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnInventario.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnVentas.setStyleSheet('background-color: red; border: none; color: white;')
-        self.btnAdminMatP.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnAdminUsuarios.setStyleSheet('background-color: brown; border: none; color: white;')
+        self.btnPedidos.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnInventario.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnVentas.setStyleSheet('background-color: #896950; border: none; color: white;')
+        self.btnAdminMatP.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnAdminUsuarios.setStyleSheet('background-color: #6b350a; border: none; color: white;')
     
     def botonAdminMatP(self):
         self.right_widget.setCurrentIndex(3)
-        self.btnPedidos.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnInventario.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnVentas.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnAdminMatP.setStyleSheet('background-color: red; border: none; color: white;')
-        self.btnAdminUsuarios.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnAdminProductos.setStyleSheet('background-color: brown; border: none; color: white;')
+        self.btnPedidos.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnInventario.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnVentas.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnAdminMatP.setStyleSheet('background-color: #896950; border: none; color: white;')
+        self.btnAdminUsuarios.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnAdminProductos.setStyleSheet('background-color: #6b350a; border: none; color: white;')
 
     def botonAdminUsuarios(self):
         self.right_widget.setCurrentIndex(4)
-        self.btnPedidos.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnInventario.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnVentas.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnAdminMatP.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnAdminUsuarios.setStyleSheet('background-color: red; border: none; color: white;')
-        self.btnAdminProductos.setStyleSheet('background-color: brown; border: none; color: white;')
+        self.btnPedidos.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnInventario.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnVentas.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnAdminMatP.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnAdminUsuarios.setStyleSheet('background-color: #896950; border: none; color: white;')
+        self.btnAdminProductos.setStyleSheet('background-color: #6b350a; border: none; color: white;')
 
     def botonAdminProductos(self):
         self.right_widget.setCurrentIndex(5)
-        self.btnPedidos.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnInventario.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnVentas.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnAdminMatP.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnAdminUsuarios.setStyleSheet('background-color: brown; border: none; color: white;')
-        self.btnAdminProductos.setStyleSheet('background-color: red; border: none; color: white;')
+        self.btnPedidos.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnInventario.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnVentas.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnAdminMatP.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnAdminUsuarios.setStyleSheet('background-color: #6b350a; border: none; color: white;')
+        self.btnAdminProductos.setStyleSheet('background-color: #896950; border: none; color: white;')
     
     def btn_Agregar(self):
         self.label2.setText('ID')
@@ -597,9 +663,7 @@ class Window(QMainWindow):
         return main
 
     def ventanaAdminMatP(self):
-        self.label1.setText('Administración de Materia Prima')
-        self.label1.setStyleSheet('font: 48pt \"Vladimir Script\";\nbackground: brown;\nborder-radius: 5px;')
-        self.label1.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.materiaPrimaLabel.setText('Administración de Materia Prima')
 
         self.cT1.setStyleSheet("border: none;\nbackground-color: white;")
         self.cT2.setStyleSheet("border: none;\nbackground-color: white;")
@@ -657,7 +721,7 @@ class Window(QMainWindow):
         hbox2.addLayout(vbox)
         hbox2.addLayout(vbox1)
 
-        main_layout.addWidget(self.label1)
+        main_layout.addWidget(self.materiaPrimaLabel)
         main_layout.addWidget(self.tablaAMateriaPrima, Qt.AlignmentFlag.AlignVCenter)
         main_layout.addLayout(hbox2)
         
@@ -666,27 +730,98 @@ class Window(QMainWindow):
         return main
 
     def administracionUsuarios(self):
+        self.autenticarUsuariosLabel.setStyleSheet('background-color: black;')
         main_layout = QVBoxLayout()
-        main_layout.addWidget(QLabel('Administración de usuarios'))
+        vbox = QVBoxLayout()
+        vbox1 = QVBoxLayout()
+        vbox2 = QVBoxLayout()
+        vbox3 = QVBoxLayout()
+        hbox = QHBoxLayout()
+        hbox1 = QHBoxLayout()
+        hbox2 = QHBoxLayout()
+
+        vbox.addWidget(self.autenticarUsuariosLabel)
+        vbox.addWidget(self.campoUsuario)
+        vbox.addWidget(self.campoContrasenia)
+        vbox.addWidget(self.btnIngresar)
+
+        hbox.addWidget(self.tablaUsuarios)
+        hbox.addLayout(vbox)
+
+        vbox1.addWidget(self.btnAgregarUser)
+        vbox1.addWidget(self.campoNombreAgregar)
+        vbox1.addWidget(self.campoUsuarioAgregar)
+        vbox1.addWidget(self.campoContraseniaAgregar)
+        vbox1.addWidget(self.campoTipoAgregar)
+        vbox1.addWidget(self.btnEjecutarAgregar)
+
+        vbox2.addWidget(self.btnEliminarUser)
+        vbox2.addWidget(self.comboUsuario)
+        vbox2.addWidget(self.btnEjecutarEliminar)
+
+        hbox1.addWidget(self.comboCategoriaModificar)
+        hbox1.addWidget(self.btnAceptarModificar)
+
+        vbox3.addWidget(self.btnModificarUser)
+        vbox3.addLayout(hbox1)
+        vbox3.addWidget(self.comboOpcionesModificar)
+        vbox3.addWidget(self.campoValorModificar)
+        vbox3.addWidget(self.btnEjecutarModificar)
+
+        hbox2.addLayout(vbox1)
+        hbox2.addLayout(vbox2)
+        hbox2.addLayout(vbox3)
+
+        main_layout.addWidget(self.adminUsuariosLabel)
+        main_layout.addLayout(hbox)
+        main_layout.addLayout(hbox2)
+        main_layout.addWidget(self.confirmacionUsuariosLabel)
         main = QWidget()
         main.setLayout(main_layout)
         return main
 
     def administracionProductos(self):
         main_layout = QVBoxLayout()
-        main_layout.addWidget(QLabel('Administración de Productos'))
+        vbox = QVBoxLayout()
+        vbox1 = QVBoxLayout()
+        vbox2 = QVBoxLayout()
+        hbox = QHBoxLayout()
+        hbox1 = QHBoxLayout()
+
+        vbox.addWidget(self.lAutenticarUsuariosP)
+        vbox.addWidget(self.campoUsuarioProductos)
+        vbox.addWidget(self.campoContraseniaProductos)
+        vbox.addWidget(self.btnIngresarAdminProd)
+
+        hbox.addWidget(self.tablaAdminProductos)
+        hbox.addLayout(vbox)
+
+        vbox1.addWidget(self.btnAgregarProductos)
+        vbox1.addWidget(self.campoIdProductos)
+        vbox1.addWidget(self.campoNombreProductos)
+        vbox1.addWidget(self.btnEjecutarAgregarP)
+
+        vbox2.addWidget(self.btnEliminarProductos)
+        vbox2.addWidget(self.comboIdProductos)
+        vbox2.addWidget(self.btnEjecutarEliminarP)
+
+        hbox1.addLayout(vbox1)
+        hbox1.addLayout(vbox2)
+
+        main_layout.addWidget(self.adminProductosLabel)
+        main_layout.addLayout(hbox)
+        main_layout.addLayout(hbox1)
+        main_layout.addWidget(self.lConfirmacionOperacionP)
         main = QWidget()
         main.setLayout(main_layout)
         return main
 
 
-
 if __name__ == '__main__':
-
     app = QApplication(sys.argv)
-    window = Window()
-    # Login = QMainWindow()
-    # ui = Ui_Login()
-    # ui.setupUi(Login)
-    window.show()
+    #window = Window()
+    Login = QMainWindow()
+    ui = Ui_Login()
+    ui.setupUi(Login)
+    Login.show()
     sys.exit(app.exec())
