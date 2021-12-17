@@ -1,3 +1,31 @@
+import mysql.connector
+
+class Login():
+
+    def __init__(self):
+        self.conexion = mysql.connector.connect( host='localhost',
+                                            database ='base_datos', 
+                                            user = 'root',
+                                            password ='password')
+        pass
+
+    def busca_users(self, users):
+        cur = self.conexion.cursor()
+        sql = "SELECT * FROM login_datos WHERE Users = {}".format(users)
+        cur.execute(sql)
+        usersx = cur.fetchall()
+        cur.close()     
+        return usersx 
+
+    def busca_password(self, password):
+        cur = self.conexion.cursor()
+        sql = "SELECT * FROM login_datos WHERE Password = {}".format(password) #
+        cur.execute(sql)
+        passwordx = cur.fetchall()
+        cur.close()     
+        return passwordx 
+
+
 class Valores():
     def __init__(self):
         self._tipoCafe = []
@@ -50,41 +78,5 @@ class Ventas():
         self._ventasM = [12, 20, 10, 5]
 
         return self._semanas, self._ventasM
-
-
-class Login():
-
-    def __init__(self):
-        #self.conexion = myslq.conector.connect(host='localhost',
-        #                                        database='base_datos',
-        #                                        user='root',
-        #                                        password='admin'
-        #                                        )
-        pass
-    
-    def busca_users(self, users):
-        #cur=self.conexion.cursor()
-        #sql = "SELECT * FROM login_datos WHERE Users= {}".format(users)
-        #cur.execute(slq)
-        #usersx = cur.fetchall()
-        #cur.close()
-        admin = "zuriel"
-        if users.lower() == admin:
-            return True
-        else: 
-            return False
-
-    def busca_password(self, password):
-        #cur=self.conexion.cursor()
-        #sql = "SELECT * FROM login_datos WHERE Password= {}".format(password)
-        #cur.execute(slq)
-        #passwordx = cur.fetchall()
-        #cur.close()
-        contra = "admin"
-        if password.lower() == contra:
-            return True
-        else:
-            return False
-
 
 valores = Valores()

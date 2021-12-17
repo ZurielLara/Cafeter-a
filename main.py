@@ -1,6 +1,7 @@
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+import back
 from back import Valores
 from back import Ventas as ven
 from back import Login as lg
@@ -92,6 +93,7 @@ class Ui_Login(object):
         "")
         self.bt_ingresar.setObjectName("bt_ingresar")
         self.bt_ingresar.clicked.connect(self.iniciarSesion)
+        self.datos = back.Login()
         self.label_6 = QLabel(self.centralwidget)
         self.label_6.setGeometry(QRect(160, 140, 160, 40))
         self.label_6.setStyleSheet("background-color: rgba(0, 0, 0 , 0%);\n"
@@ -121,14 +123,37 @@ class Ui_Login(object):
         QMetaObject.connectSlotsByName(Login)
 
     def iniciarSesion(self):
-        self.contrasena = self.password.text()
-        self.usuarios = self.users.text()
+        self.contrasena_incorrecta.setText('')
+        self.usuario_incorrecto.setText('')
+        users_entry= self.users.text()
+        password_entry= self.password.text()
 
-        if lg.busca_users(self, self.usuarios) and lg.busca_password(self, self.contrasena):
-            self.w = Window()
-            self.w.show()
+        users_entry = str("'" + users_entry + "'")
+        password_entry = str("'" + password_entry + "'")
+        
+        dato1 = self.datos.busca_users(users_entry)
+        dato2 = self.datos.busca_password(password_entry)
+
+        if dato1 == [] and dato2 == []:
+            self.contrasena_incorrecta.setText('Contraseña incorrecta')
+            self.usuario_incorrecto.setText('Usuario incorrecto')
         else:
-            self.usuario_incorrecto.setText('El usuario o la contraseña son incorrectos')
+
+            if dato1 == []:
+                self.usuario_incorrecto.setText('Usuario incorrecto')
+            else:
+                dato1 = dato1[0][1]
+            
+            if dato2 == []:
+                self.contrasena_incorrecta.setText('Contraseña incorrecta')
+            else:
+                dato2 = dato2[0][2]
+            
+            if dato1 != [] and dato2 !=[]:
+                self.w = Window()
+                self.w.show()
+
+        
 
     def retranslateUi(self, Login):
         _translate = QCoreApplication.translate
